@@ -12,6 +12,7 @@
             --button-hover: #555555;
             --button-text: #ffffff;
             --header-bg: #1a1a1a;
+            --footer-bg: #1a1a1a;
         }
 
         .clear-mode {
@@ -21,6 +22,7 @@
             --button-hover: #cccccc;
             --button-text: #000000;
             --header-bg: #eeeeee;
+            --footer-bg: #eeeeee;
         }
 
         body {
@@ -30,12 +32,16 @@
             margin: 0;
             padding: 0;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            flex: 1;
         }
 
         header {
@@ -44,7 +50,7 @@
             align-items: center;
             padding: 10px 0;
             background-color: var(--header-bg);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             border-radius: 10px;
             padding: 10px 20px;
         }
@@ -77,7 +83,7 @@
         .kana-toggle {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             gap: 10px;
         }
 
@@ -90,8 +96,8 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .kana-row button {
@@ -110,13 +116,49 @@
         }
 
         .back-button {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             padding: 10px 20px;
         }
 
         .active {
             background-color: #4CAF50 !important;
             color: white !important;
+        }
+
+        .example-sentences {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .example-sentences h3 {
+            margin-bottom: 15px;
+        }
+
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .example-buttons button {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+
+        footer p {
+            margin: 5px 0;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -131,8 +173,8 @@
         </header>
 
         <div class="kana-toggle">
-            <button id="hiraganaBtn" class="active">Hiragana</button>
-            <button id="katakanaBtn">Katakana</button>
+            <button id="hiraganaBtn" class="active">ひらがな</button>
+            <button id="katakanaBtn">カタカナ</button>
         </div>
 
         <div id="mainMenu">
@@ -153,10 +195,20 @@
         </div>
 
         <div id="kanaDetail" class="kana-detail">
-            <button class="back-button" id="backBtn">Back</button>
+            <button class="back-button" id="backBtn">戻る</button>
             <div class="kana-row" id="detailKanaRow"></div>
+            
+            <div class="example-sentences">
+                <h3>例文 (Example Sentences)</h3>
+                <div class="example-buttons" id="exampleButtons"></div>
+            </div>
         </div>
     </div>
+
+    <footer>
+        <p>Contact me</p>
+        <p>mementomorikatsu@gmail.com</p>
+    </footer>
 
     <script>
         // Kana data
@@ -186,17 +238,18 @@
             wa: ['ワ', '', 'ヲ', '', 'ン']
         };
 
-        const romaji = {
-            a: ['A', 'I', 'U', 'E', 'O'],
-            ka: ['KA', 'KI', 'KU', 'KE', 'KO'],
-            sa: ['SA', 'SHI', 'SU', 'SE', 'SO'],
-            ta: ['TA', 'CHI', 'TSU', 'TE', 'TO'],
-            na: ['NA', 'NI', 'NU', 'NE', 'NO'],
-            ha: ['HA', 'HI', 'FU', 'HE', 'HO'],
-            ma: ['MA', 'MI', 'MU', 'ME', 'MO'],
-            ya: ['YA', '', 'YU', '', 'YO'],
-            ra: ['RA', 'RI', 'RU', 'RE', 'RO'],
-            wa: ['WA', '', 'WO', '', 'N']
+        // Example sentences for each row
+        const examples = {
+            a: ['あお (青 - blue)', 'いえ (家 - house)', 'うえ (上 - up)', 'え (絵 - picture)', 'おおきい (大きい - big)'],
+            ka: ['かばん (鞄 - bag)', 'き (木 - tree)', 'くつ (靴 - shoes)', 'けしゴム (消しゴム - eraser)', 'こども (子供 - child)'],
+            sa: ['さかな (魚 - fish)', 'しんぶん (新聞 - newspaper)', 'すし (寿司 - sushi)', 'せんせい (先生 - teacher)', 'そら (空 - sky)'],
+            ta: ['たべもの (食べ物 - food)', 'ちち (父 - father)', 'つくえ (机 - desk)', 'て (手 - hand)', 'とけい (時計 - clock)'],
+            na: ['なつ (夏 - summer)', 'にほん (日本 - Japan)', 'ぬりえ (塗り絵 - coloring)', 'ねこ (猫 - cat)', 'のうか (農家 - farmer)'],
+            ha: ['はな (花 - flower)', 'ひ (日 - day/sun)', 'ふね (船 - ship)', 'へや (部屋 - room)', 'ほん (本 - book)'],
+            ma: ['まど (窓 - window)', 'みず (水 - water)', 'むし (虫 - insect)', 'め (目 - eye)', 'もも (桃 - peach)'],
+            ya: ['やま (山 - mountain)', '', 'ゆき (雪 - snow)', '', 'よる (夜 - night)'],
+            ra: ['らくだ (ラクダ - camel)', 'りんご (林檎 - apple)', 'るす (留守 - absence)', 'れんしゅう (練習 - practice)', 'ろく (六 - six)'],
+            wa: ['わに (ワニ - crocodile)', '', 'を (particle)', '', 'ん (hiragana "n")']
         };
 
         // DOM elements
@@ -208,10 +261,12 @@
         const kanaDetail = document.getElementById('kanaDetail');
         const backBtn = document.getElementById('backBtn');
         const detailKanaRow = document.getElementById('detailKanaRow');
+        const exampleButtons = document.getElementById('exampleButtons');
         const rowButtons = document.querySelectorAll('.row-btn');
 
         // Current mode
         let isHiraganaMode = true;
+        let currentRow = '';
 
         // Event listeners
         darkModeBtn.addEventListener('click', () => {
@@ -230,17 +285,22 @@
             isHiraganaMode = true;
             hiraganaBtn.classList.add('active');
             katakanaBtn.classList.remove('active');
+            updateRowButtons();
+            if (currentRow) showKanaDetail(currentRow);
         });
 
         katakanaBtn.addEventListener('click', () => {
             isHiraganaMode = false;
             katakanaBtn.classList.add('active');
             hiraganaBtn.classList.remove('active');
+            updateRowButtons();
+            if (currentRow) showKanaDetail(currentRow);
         });
 
         rowButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const row = button.getAttribute('data-row');
+                currentRow = row;
                 showKanaDetail(row);
             });
         });
@@ -251,33 +311,97 @@
         });
 
         // Functions
+        function updateRowButtons() {
+            rowButtons.forEach(button => {
+                const row = button.getAttribute('data-row');
+                if (isHiraganaMode) {
+                    if (row === 'a') button.textContent = 'あ行';
+                    else if (row === 'ka') button.textContent = 'か行';
+                    else if (row === 'sa') button.textContent = 'さ行';
+                    else if (row === 'ta') button.textContent = 'た行';
+                    else if (row === 'na') button.textContent = 'な行';
+                    else if (row === 'ha') button.textContent = 'は行';
+                    else if (row === 'ma') button.textContent = 'ま行';
+                    else if (row === 'ya') button.textContent = 'や行';
+                    else if (row === 'ra') button.textContent = 'ら行';
+                    else if (row === 'wa') button.textContent = 'わ行';
+                } else {
+                    if (row === 'a') button.textContent = 'ア行';
+                    else if (row === 'ka') button.textContent = 'カ行';
+                    else if (row === 'sa') button.textContent = 'サ行';
+                    else if (row === 'ta') button.textContent = 'タ行';
+                    else if (row === 'na') button.textContent = 'ナ行';
+                    else if (row === 'ha') button.textContent = 'ハ行';
+                    else if (row === 'ma') button.textContent = 'マ行';
+                    else if (row === 'ya') button.textContent = 'ヤ行';
+                    else if (row === 'ra') button.textContent = 'ラ行';
+                    else if (row === 'wa') button.textContent = 'ワ行';
+                }
+            });
+        }
+
         function showKanaDetail(row) {
             mainMenu.style.display = 'none';
             kanaDetail.style.display = 'flex';
             detailKanaRow.innerHTML = '';
+            exampleButtons.innerHTML = '';
 
             const kanaSet = isHiraganaMode ? hiragana : katakana;
-            const currentRow = kanaSet[row];
-            const romajiRow = romaji[row];
+            const currentRowKana = kanaSet[row];
+            const currentExamples = examples[row];
 
-            currentRow.forEach((kana, index) => {
-                if (kana) { // Skip empty entries (like in ya-row)
+            currentRowKana.forEach((kana, index) => {
+                if (kana) {
                     const button = document.createElement('button');
                     button.className = 'kana-char';
                     button.textContent = kana;
                     button.addEventListener('click', () => {
-                        speak(romajiRow[index]);
+                        speak(kana);
                     });
                     detailKanaRow.appendChild(button);
+
+                    // Add example sentence if exists
+                    if (currentExamples[index]) {
+                        const exampleBtn = document.createElement('button');
+                        exampleBtn.textContent = currentExamples[index];
+                        exampleBtn.addEventListener('click', () => {
+                            // Speak the Japanese part only (before the hyphen)
+                            const japaneseText = currentExamples[index].split(' - ')[0];
+                            speak(japaneseText);
+                        });
+                        exampleButtons.appendChild(exampleBtn);
+                    }
                 }
             });
         }
 
         function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = text;
             utterance.lang = 'ja-JP';
+            utterance.rate = 0.9;
+            
+            // Try to get Japanese voice
+            const voices = speechSynthesis.getVoices();
+            const japaneseVoice = voices.find(voice => voice.lang === 'ja-JP');
+            
+            if (japaneseVoice) {
+                utterance.voice = japaneseVoice;
+            }
+            
             speechSynthesis.speak(utterance);
         }
+
+        // Initialize voices (needed for some browsers)
+        speechSynthesis.onvoiceschanged = function() {
+            // Voices are now loaded
+        };
+
+        // Initial setup
+        updateRowButtons();
     </script>
 </body>
 </html>
