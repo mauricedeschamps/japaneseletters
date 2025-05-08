@@ -92,18 +92,23 @@
             font-size: 1rem;
         }
 
-        .kana-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        .kana-rows-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
 
+        .kana-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .kana-row button {
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
+            width: 100%;
+            height: 50px;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -128,6 +133,7 @@
         .example-sentences {
             margin-top: 30px;
             text-align: center;
+            width: 100%;
         }
 
         .example-sentences h3 {
@@ -160,6 +166,25 @@
             margin: 5px 0;
             line-height: 1.5;
         }
+
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .clear-mode a {
+            color: #000000;
+        }
+
+        .voice-info {
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: #888;
+        }
+
+        .clear-mode .voice-info {
+            color: #666;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -178,36 +203,52 @@
         </div>
 
         <div id="mainMenu">
-            <div class="kana-row">
-                <button class="row-btn" data-row="a">あ行</button>
-                <button class="row-btn" data-row="ka">か行</button>
-                <button class="row-btn" data-row="sa">さ行</button>
-                <button class="row-btn" data-row="ta">た行</button>
-                <button class="row-btn" data-row="na">な行</button>
-            </div>
-            <div class="kana-row">
-                <button class="row-btn" data-row="ha">は行</button>
-                <button class="row-btn" data-row="ma">ま行</button>
-                <button class="row-btn" data-row="ya">や行</button>
-                <button class="row-btn" data-row="ra">ら行</button>
-                <button class="row-btn" data-row="wa">わ行</button>
+            <div class="kana-rows-container">
+                <div class="kana-row">
+                    <button class="row-btn" data-row="a">あ行</button>
+                    <button class="row-btn" data-row="ka">か行</button>
+                    <button class="row-btn" data-row="ga">が行</button>
+                </div>
+                <div class="kana-row">
+                    <button class="row-btn" data-row="sa">さ行</button>
+                    <button class="row-btn" data-row="za">ざ行</button>
+                    <button class="row-btn" data-row="ta">た行</button>
+                </div>
+                <div class="kana-row">
+                    <button class="row-btn" data-row="da">だ行</button>
+                    <button class="row-btn" data-row="na">な行</button>
+                    <button class="row-btn" data-row="ha">は行</button>
+                </div>
+                <div class="kana-row">
+                    <button class="row-btn" data-row="ba">ば行</button>
+                    <button class="row-btn" data-row="pa">ぱ行</button>
+                    <button class="row-btn" data-row="ma">ま行</button>
+                </div>
+                <div class="kana-row">
+                    <button class="row-btn" data-row="ya">や行</button>
+                    <button class="row-btn" data-row="ra">ら行</button>
+                    <button class="row-btn" data-row="wa">わ行</button>
+                </div>
             </div>
         </div>
 
         <div id="kanaDetail" class="kana-detail">
             <button class="back-button" id="backBtn">戻る</button>
-            <div class="kana-row" id="detailKanaRow"></div>
+            <div class="kana-rows-container" style="grid-template-columns: repeat(5, 1fr); width: 100%;">
+                <div class="kana-row" id="detailKanaRow"></div>
+            </div>
             
             <div class="example-sentences">
                 <h3>例文 (Example Sentences)</h3>
                 <div class="example-buttons" id="exampleButtons"></div>
+                <p class="voice-info">※音声はブラウザの設定に依存します。日本語音声が利用可能か確認してください。</p>
             </div>
         </div>
     </div>
 
     <footer>
         <p>Contact me</p>
-        <p>mementomorikatsu@gmail.com</p>
+        <p><a href="mailto:mementomorikatsu@gmail.com">mementomorikatsu@gmail.com</a></p>
     </footer>
 
     <script>
@@ -215,10 +256,15 @@
         const hiragana = {
             a: ['あ', 'い', 'う', 'え', 'お'],
             ka: ['か', 'き', 'く', 'け', 'こ'],
+            ga: ['が', 'ぎ', 'ぐ', 'げ', 'ご'],
             sa: ['さ', 'し', 'す', 'せ', 'そ'],
+            za: ['ざ', 'じ', 'ず', 'ぜ', 'ぞ'],
             ta: ['た', 'ち', 'つ', 'て', 'と'],
+            da: ['だ', 'ぢ', 'づ', 'で', 'ど'],
             na: ['な', 'に', 'ぬ', 'ね', 'の'],
             ha: ['は', 'ひ', 'ふ', 'へ', 'ほ'],
+            ba: ['ば', 'び', 'ぶ', 'べ', 'ぼ'],
+            pa: ['ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'],
             ma: ['ま', 'み', 'む', 'め', 'も'],
             ya: ['や', '', 'ゆ', '', 'よ'],
             ra: ['ら', 'り', 'る', 'れ', 'ろ'],
@@ -228,10 +274,15 @@
         const katakana = {
             a: ['ア', 'イ', 'ウ', 'エ', 'オ'],
             ka: ['カ', 'キ', 'ク', 'ケ', 'コ'],
+            ga: ['ガ', 'ギ', 'グ', 'ゲ', 'ゴ'],
             sa: ['サ', 'シ', 'ス', 'セ', 'ソ'],
+            za: ['ザ', 'ジ', 'ズ', 'ゼ', 'ゾ'],
             ta: ['タ', 'チ', 'ツ', 'テ', 'ト'],
+            da: ['ダ', 'ヂ', 'ヅ', 'デ', 'ド'],
             na: ['ナ', 'ニ', 'ヌ', 'ネ', 'ノ'],
             ha: ['ハ', 'ヒ', 'フ', 'ヘ', 'ホ'],
+            ba: ['バ', 'ビ', 'ブ', 'ベ', 'ボ'],
+            pa: ['パ', 'ピ', 'プ', 'ペ', 'ポ'],
             ma: ['マ', 'ミ', 'ム', 'メ', 'モ'],
             ya: ['ヤ', '', 'ユ', '', 'ヨ'],
             ra: ['ラ', 'リ', 'ル', 'レ', 'ロ'],
@@ -242,10 +293,15 @@
         const examples = {
             a: ['あお (青 - blue)', 'いえ (家 - house)', 'うえ (上 - up)', 'え (絵 - picture)', 'おおきい (大きい - big)'],
             ka: ['かばん (鞄 - bag)', 'き (木 - tree)', 'くつ (靴 - shoes)', 'けしゴム (消しゴム - eraser)', 'こども (子供 - child)'],
+            ga: ['がっこう (学校 - school)', 'ぎんこう (銀行 - bank)', 'ぐんたい (軍隊 - army)', 'げんき (元気 - healthy)', 'ごはん (ご飯 - meal)'],
             sa: ['さかな (魚 - fish)', 'しんぶん (新聞 - newspaper)', 'すし (寿司 - sushi)', 'せんせい (先生 - teacher)', 'そら (空 - sky)'],
+            za: ['ざっし (雑誌 - magazine)', 'じかん (時間 - time)', 'ずかん (図鑑 - picture book)', 'ぜんぶ (全部 - all)', 'ぞう (象 - elephant)'],
             ta: ['たべもの (食べ物 - food)', 'ちち (父 - father)', 'つくえ (机 - desk)', 'て (手 - hand)', 'とけい (時計 - clock)'],
+            da: ['だいがく (大学 - university)', 'ぢしん (地震 - earthquake)', 'づか (塚 - mound)', 'でんわ (電話 - phone)', 'どうぶつ (動物 - animal)'],
             na: ['なつ (夏 - summer)', 'にほん (日本 - Japan)', 'ぬりえ (塗り絵 - coloring)', 'ねこ (猫 - cat)', 'のうか (農家 - farmer)'],
             ha: ['はな (花 - flower)', 'ひ (日 - day/sun)', 'ふね (船 - ship)', 'へや (部屋 - room)', 'ほん (本 - book)'],
+            ba: ['ばしょ (場所 - place)', 'びょういん (病院 - hospital)', 'ぶどう (葡萄 - grapes)', 'べんきょう (勉強 - study)', 'ぼうし (帽子 - hat)'],
+            pa: ['ぱん (パン - bread)', 'ぴあの (ピアノ - piano)', 'ぷりん (プリン - pudding)', 'ぺん (ペン - pen)', 'ぽけっと (ポケット - pocket)'],
             ma: ['まど (窓 - window)', 'みず (水 - water)', 'むし (虫 - insect)', 'め (目 - eye)', 'もも (桃 - peach)'],
             ya: ['やま (山 - mountain)', '', 'ゆき (雪 - snow)', '', 'よる (夜 - night)'],
             ra: ['らくだ (ラクダ - camel)', 'りんご (林檎 - apple)', 'るす (留守 - absence)', 'れんしゅう (練習 - practice)', 'ろく (六 - six)'],
@@ -317,10 +373,15 @@
                 if (isHiraganaMode) {
                     if (row === 'a') button.textContent = 'あ行';
                     else if (row === 'ka') button.textContent = 'か行';
+                    else if (row === 'ga') button.textContent = 'が行';
                     else if (row === 'sa') button.textContent = 'さ行';
+                    else if (row === 'za') button.textContent = 'ざ行';
                     else if (row === 'ta') button.textContent = 'た行';
+                    else if (row === 'da') button.textContent = 'だ行';
                     else if (row === 'na') button.textContent = 'な行';
                     else if (row === 'ha') button.textContent = 'は行';
+                    else if (row === 'ba') button.textContent = 'ば行';
+                    else if (row === 'pa') button.textContent = 'ぱ行';
                     else if (row === 'ma') button.textContent = 'ま行';
                     else if (row === 'ya') button.textContent = 'や行';
                     else if (row === 'ra') button.textContent = 'ら行';
@@ -328,10 +389,15 @@
                 } else {
                     if (row === 'a') button.textContent = 'ア行';
                     else if (row === 'ka') button.textContent = 'カ行';
+                    else if (row === 'ga') button.textContent = 'ガ行';
                     else if (row === 'sa') button.textContent = 'サ行';
+                    else if (row === 'za') button.textContent = 'ザ行';
                     else if (row === 'ta') button.textContent = 'タ行';
+                    else if (row === 'da') button.textContent = 'ダ行';
                     else if (row === 'na') button.textContent = 'ナ行';
                     else if (row === 'ha') button.textContent = 'ハ行';
+                    else if (row === 'ba') button.textContent = 'バ行';
+                    else if (row === 'pa') button.textContent = 'パ行';
                     else if (row === 'ma') button.textContent = 'マ行';
                     else if (row === 'ya') button.textContent = 'ヤ行';
                     else if (row === 'ra') button.textContent = 'ラ行';
@@ -390,15 +456,19 @@
             
             if (japaneseVoice) {
                 utterance.voice = japaneseVoice;
+            } else {
+                console.warn('Japanese voice not found. Using default voice.');
             }
             
             speechSynthesis.speak(utterance);
         }
 
         // Initialize voices (needed for some browsers)
-        speechSynthesis.onvoiceschanged = function() {
-            // Voices are now loaded
-        };
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = function() {
+                // Voices are now loaded
+            };
+        }
 
         // Initial setup
         updateRowButtons();
