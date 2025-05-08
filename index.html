@@ -55,9 +55,28 @@
             padding: 10px 20px;
         }
 
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         h1 {
             margin: 0;
             font-size: 1.5rem;
+        }
+
+        .app-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
         .mode-toggle {
@@ -190,7 +209,10 @@
 <body class="dark-mode">
     <div class="container">
         <header>
-            <h1>Japanese Kana Learner</h1>
+            <div class="title-container">
+                <div class="app-icon">あ</div>
+                <h1>Japanese Kana Learner</h1>
+            </div>
             <div class="mode-toggle">
                 <button id="darkModeBtn" class="active">Dark Mode</button>
                 <button id="clearModeBtn">Clear Mode</button>
@@ -239,7 +261,7 @@
             </div>
             
             <div class="example-sentences">
-                <h3>例文 (Example Words)</h3>
+                <h3>例文 (Example words)</h3>
                 <div class="example-buttons" id="exampleButtons"></div>
                 <p class="voice-info">※音声はブラウザの設定に依存します。日本語音声が利用可能か確認してください。</p>
             </div>
