@@ -207,6 +207,26 @@
         .clear-mode .voice-info {
             color: #666;
         }
+
+        /* 追加スタイル */
+        .kana-with-romaji {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+        }
+
+        .romaji {
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        .row-with-romaji {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -230,29 +250,29 @@
         <div id="mainMenu">
             <div class="kana-rows-container">
                 <div class="kana-row">
-                    <button class="row-btn" data-row="a">あ行</button>
-                    <button class="row-btn" data-row="ka">か行</button>
-                    <button class="row-btn" data-row="ga">が行</button>
+                    <button class="row-btn" data-row="a"><span class="row-with-romaji">あ <span class="romaji">a</span></span></button>
+                    <button class="row-btn" data-row="ka"><span class="row-with-romaji">か <span class="romaji">ka</span></span></button>
+                    <button class="row-btn" data-row="ga"><span class="row-with-romaji">が <span class="romaji">ga</span></span></button>
                 </div>
                 <div class="kana-row">
-                    <button class="row-btn" data-row="sa">さ行</button>
-                    <button class="row-btn" data-row="za">ざ行</button>
-                    <button class="row-btn" data-row="ta">た行</button>
+                    <button class="row-btn" data-row="sa"><span class="row-with-romaji">さ <span class="romaji">sa</span></span></button>
+                    <button class="row-btn" data-row="za"><span class="row-with-romaji">ざ <span class="romaji">za</span></span></button>
+                    <button class="row-btn" data-row="ta"><span class="row-with-romaji">た <span class="romaji">ta</span></span></button>
                 </div>
                 <div class="kana-row">
-                    <button class="row-btn" data-row="da">だ行</button>
-                    <button class="row-btn" data-row="na">な行</button>
-                    <button class="row-btn" data-row="ha">は行</button>
+                    <button class="row-btn" data-row="da"><span class="row-with-romaji">だ <span class="romaji">da</span></span></button>
+                    <button class="row-btn" data-row="na"><span class="row-with-romaji">な <span class="romaji">na</span></span></button>
+                    <button class="row-btn" data-row="ha"><span class="row-with-romaji">は <span class="romaji">ha</span></span></button>
                 </div>
                 <div class="kana-row">
-                    <button class="row-btn" data-row="ba">ば行</button>
-                    <button class="row-btn" data-row="pa">ぱ行</button>
-                    <button class="row-btn" data-row="ma">ま行</button>
+                    <button class="row-btn" data-row="ba"><span class="row-with-romaji">ば <span class="romaji">ba</span></span></button>
+                    <button class="row-btn" data-row="pa"><span class="row-with-romaji">ぱ <span class="romaji">pa</span></span></button>
+                    <button class="row-btn" data-row="ma"><span class="row-with-romaji">ま <span class="romaji">ma</span></span></button>
                 </div>
                 <div class="kana-row">
-                    <button class="row-btn" data-row="ya">や行</button>
-                    <button class="row-btn" data-row="ra">ら行</button>
-                    <button class="row-btn" data-row="wa">わ行</button>
+                    <button class="row-btn" data-row="ya"><span class="row-with-romaji">や <span class="romaji">ya</span></span></button>
+                    <button class="row-btn" data-row="ra"><span class="row-with-romaji">ら <span class="romaji">ra</span></span></button>
+                    <button class="row-btn" data-row="wa"><span class="row-with-romaji">わ <span class="romaji">wa</span></span></button>
                 </div>
             </div>
         </div>
@@ -312,6 +332,25 @@
             ya: ['ヤ', '', 'ユ', '', 'ヨ'],
             ra: ['ラ', 'リ', 'ル', 'レ', 'ロ'],
             wa: ['ワ', '', 'ヲ', '', 'ン']
+        };
+
+        // Romaji for each kana
+        const romaji = {
+            a: ['a', 'i', 'u', 'e', 'o'],
+            ka: ['ka', 'ki', 'ku', 'ke', 'ko'],
+            ga: ['ga', 'gi', 'gu', 'ge', 'go'],
+            sa: ['sa', 'shi', 'su', 'se', 'so'],
+            za: ['za', 'ji', 'zu', 'ze', 'zo'],
+            ta: ['ta', 'chi', 'tsu', 'te', 'to'],
+            da: ['da', 'ji', 'zu', 'de', 'do'],
+            na: ['na', 'ni', 'nu', 'ne', 'no'],
+            ha: ['ha', 'hi', 'fu', 'he', 'ho'],
+            ba: ['ba', 'bi', 'bu', 'be', 'bo'],
+            pa: ['pa', 'pi', 'pu', 'pe', 'po'],
+            ma: ['ma', 'mi', 'mu', 'me', 'mo'],
+            ya: ['ya', '', 'yu', '', 'yo'],
+            ra: ['ra', 'ri', 'ru', 're', 'ro'],
+            wa: ['wa', '', 'wo', '', 'n']
         };
 
         // Example sentences for each row
@@ -395,39 +434,17 @@
         function updateRowButtons() {
             rowButtons.forEach(button => {
                 const row = button.getAttribute('data-row');
-                if (isHiraganaMode) {
-                    if (row === 'a') button.textContent = 'あ行';
-                    else if (row === 'ka') button.textContent = 'か行';
-                    else if (row === 'ga') button.textContent = 'が行';
-                    else if (row === 'sa') button.textContent = 'さ行';
-                    else if (row === 'za') button.textContent = 'ざ行';
-                    else if (row === 'ta') button.textContent = 'た行';
-                    else if (row === 'da') button.textContent = 'だ行';
-                    else if (row === 'na') button.textContent = 'な行';
-                    else if (row === 'ha') button.textContent = 'は行';
-                    else if (row === 'ba') button.textContent = 'ば行';
-                    else if (row === 'pa') button.textContent = 'ぱ行';
-                    else if (row === 'ma') button.textContent = 'ま行';
-                    else if (row === 'ya') button.textContent = 'や行';
-                    else if (row === 'ra') button.textContent = 'ら行';
-                    else if (row === 'wa') button.textContent = 'わ行';
-                } else {
-                    if (row === 'a') button.textContent = 'ア行';
-                    else if (row === 'ka') button.textContent = 'カ行';
-                    else if (row === 'ga') button.textContent = 'ガ行';
-                    else if (row === 'sa') button.textContent = 'サ行';
-                    else if (row === 'za') button.textContent = 'ザ行';
-                    else if (row === 'ta') button.textContent = 'タ行';
-                    else if (row === 'da') button.textContent = 'ダ行';
-                    else if (row === 'na') button.textContent = 'ナ行';
-                    else if (row === 'ha') button.textContent = 'ハ行';
-                    else if (row === 'ba') button.textContent = 'バ行';
-                    else if (row === 'pa') button.textContent = 'パ行';
-                    else if (row === 'ma') button.textContent = 'マ行';
-                    else if (row === 'ya') button.textContent = 'ヤ行';
-                    else if (row === 'ra') button.textContent = 'ラ行';
-                    else if (row === 'wa') button.textContent = 'ワ行';
-                }
+                const romajiText = romaji[row][0]; // Get first romaji of the row
+                const kanaSet = isHiraganaMode ? hiragana : katakana;
+                const firstKana = kanaSet[row][0];
+                
+                // Update button content
+                const content = `
+                    <span class="row-with-romaji">
+                        ${firstKana} <span class="romaji">${romajiText}</span>
+                    </span>
+                `;
+                button.innerHTML = content;
             });
         }
 
@@ -439,13 +456,23 @@
 
             const kanaSet = isHiraganaMode ? hiragana : katakana;
             const currentRowKana = kanaSet[row];
+            const currentRomaji = romaji[row];
             const currentExamples = examples[row];
 
             currentRowKana.forEach((kana, index) => {
                 if (kana) {
                     const button = document.createElement('button');
                     button.className = 'kana-char';
-                    button.textContent = kana;
+                    
+                    // Create content with kana and romaji
+                    const content = document.createElement('div');
+                    content.className = 'kana-with-romaji';
+                    content.innerHTML = `
+                        ${kana}
+                        <div class="romaji">${currentRomaji[index]}</div>
+                    `;
+                    
+                    button.appendChild(content);
                     button.addEventListener('click', () => {
                         speak(kana);
                     });
