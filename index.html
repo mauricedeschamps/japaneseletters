@@ -115,21 +115,22 @@
         }
 
         .kana-rows-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-bottom: 25px;
         }
 
         .kana-row {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .kana-row button {
-            width: 100%;
             height: 50px;
+            min-width: 70px;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
@@ -140,11 +141,13 @@
             display: none;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         .back-button {
             margin-bottom: 30px;
             padding: 10px 20px;
+            align-self: flex-start;
         }
 
         .active {
@@ -227,6 +230,68 @@
             align-items: center;
             gap: 5px;
         }
+
+        /* 詳細ページのレイアウト */
+        .detail-container {
+            display: flex;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .kana-buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            width: 30%;
+            gap: 10px;
+        }
+
+        .kana-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 70%;
+            padding: 20px;
+        }
+
+        .large-kana {
+            font-size: 120px;
+            margin-bottom: 20px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .large-romaji {
+            font-size: 40px;
+            color: #4CAF50;
+        }
+
+        @media (max-width: 600px) {
+            .detail-container {
+                flex-direction: column-reverse;
+            }
+            
+            .kana-buttons-container {
+                width: 100%;
+                align-items: center;
+            }
+            
+            .kana-display {
+                width: 100%;
+            }
+            
+            .large-kana {
+                font-size: 80px;
+                min-height: 100px;
+            }
+            
+            .large-romaji {
+                font-size: 30px;
+            }
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -249,29 +314,58 @@
 
         <div id="mainMenu">
             <div class="kana-rows-container">
+                <!-- 1行目: あ行 -->
                 <div class="kana-row">
                     <button class="row-btn" data-row="a"><span class="row-with-romaji">あ <span class="romaji">a</span></span></button>
+                </div>
+                
+                <!-- 2行目: か行、が行 -->
+                <div class="kana-row">
                     <button class="row-btn" data-row="ka"><span class="row-with-romaji">か <span class="romaji">ka</span></span></button>
                     <button class="row-btn" data-row="ga"><span class="row-with-romaji">が <span class="romaji">ga</span></span></button>
                 </div>
+                
+                <!-- 3行目: さ行、ざ行 -->
                 <div class="kana-row">
                     <button class="row-btn" data-row="sa"><span class="row-with-romaji">さ <span class="romaji">sa</span></span></button>
                     <button class="row-btn" data-row="za"><span class="row-with-romaji">ざ <span class="romaji">za</span></span></button>
+                </div>
+                
+                <!-- 4行目: た行、だ行 -->
+                <div class="kana-row">
                     <button class="row-btn" data-row="ta"><span class="row-with-romaji">た <span class="romaji">ta</span></span></button>
-                </div>
-                <div class="kana-row">
                     <button class="row-btn" data-row="da"><span class="row-with-romaji">だ <span class="romaji">da</span></span></button>
-                    <button class="row-btn" data-row="na"><span class="row-with-romaji">な <span class="romaji">na</span></span></button>
-                    <button class="row-btn" data-row="ha"><span class="row-with-romaji">は <span class="romaji">ha</span></span></button>
                 </div>
+                
+                <!-- 5行目: な行 -->
                 <div class="kana-row">
+                    <button class="row-btn" data-row="na"><span class="row-with-romaji">な <span class="romaji">na</span></span></button>
+                </div>
+                
+                <!-- 6行目: は行、ば行、ぱ行 -->
+                <div class="kana-row">
+                    <button class="row-btn" data-row="ha"><span class="row-with-romaji">は <span class="romaji">ha</span></span></button>
                     <button class="row-btn" data-row="ba"><span class="row-with-romaji">ば <span class="romaji">ba</span></span></button>
                     <button class="row-btn" data-row="pa"><span class="row-with-romaji">ぱ <span class="romaji">pa</span></span></button>
+                </div>
+                
+                <!-- 7行目: ま行 -->
+                <div class="kana-row">
                     <button class="row-btn" data-row="ma"><span class="row-with-romaji">ま <span class="romaji">ma</span></span></button>
                 </div>
+                
+                <!-- 8行目: や行 -->
                 <div class="kana-row">
                     <button class="row-btn" data-row="ya"><span class="row-with-romaji">や <span class="romaji">ya</span></span></button>
+                </div>
+                
+                <!-- 9行目: ら行 -->
+                <div class="kana-row">
                     <button class="row-btn" data-row="ra"><span class="row-with-romaji">ら <span class="romaji">ra</span></span></button>
+                </div>
+                
+                <!-- 10行目: わ行 -->
+                <div class="kana-row">
                     <button class="row-btn" data-row="wa"><span class="row-with-romaji">わ <span class="romaji">wa</span></span></button>
                 </div>
             </div>
@@ -279,8 +373,16 @@
 
         <div id="kanaDetail" class="kana-detail">
             <button class="back-button" id="backBtn">戻る</button>
-            <div class="kana-rows-container" style="grid-template-columns: repeat(5, 1fr); width: 100%;">
-                <div class="kana-row" id="detailKanaRow"></div>
+            
+            <div class="detail-container">
+                <div class="kana-display">
+                    <div class="large-kana" id="largeKanaDisplay"></div>
+                    <div class="large-romaji" id="largeRomajiDisplay"></div>
+                </div>
+                
+                <div class="kana-buttons-container" id="detailKanaRow">
+                    <!-- ここに仮名ボタンが縦に並ぶ -->
+                </div>
             </div>
             
             <div class="example-sentences">
@@ -382,11 +484,14 @@
         const backBtn = document.getElementById('backBtn');
         const detailKanaRow = document.getElementById('detailKanaRow');
         const exampleButtons = document.getElementById('exampleButtons');
+        const largeKanaDisplay = document.getElementById('largeKanaDisplay');
+        const largeRomajiDisplay = document.getElementById('largeRomajiDisplay');
         const rowButtons = document.querySelectorAll('.row-btn');
 
         // Current mode
         let isHiraganaMode = true;
         let currentRow = '';
+        let isSpeaking = false;
 
         // Event listeners
         darkModeBtn.addEventListener('click', () => {
@@ -428,17 +533,17 @@
         backBtn.addEventListener('click', () => {
             mainMenu.style.display = 'block';
             kanaDetail.style.display = 'none';
+            speechSynthesis.cancel();
         });
 
         // Functions
         function updateRowButtons() {
             rowButtons.forEach(button => {
                 const row = button.getAttribute('data-row');
-                const romajiText = romaji[row][0]; // Get first romaji of the row
+                const romajiText = romaji[row][0];
                 const kanaSet = isHiraganaMode ? hiragana : katakana;
                 const firstKana = kanaSet[row][0];
                 
-                // Update button content
                 const content = `
                     <span class="row-with-romaji">
                         ${firstKana} <span class="romaji">${romajiText}</span>
@@ -453,6 +558,8 @@
             kanaDetail.style.display = 'flex';
             detailKanaRow.innerHTML = '';
             exampleButtons.innerHTML = '';
+            largeKanaDisplay.textContent = '';
+            largeRomajiDisplay.textContent = '';
 
             const kanaSet = isHiraganaMode ? hiragana : katakana;
             const currentRowKana = kanaSet[row];
@@ -463,8 +570,9 @@
                 if (kana) {
                     const button = document.createElement('button');
                     button.className = 'kana-char';
+                    button.dataset.kana = kana;
+                    button.dataset.romaji = currentRomaji[index];
                     
-                    // Create content with kana and romaji
                     const content = document.createElement('div');
                     content.className = 'kana-with-romaji';
                     content.innerHTML = `
@@ -474,7 +582,15 @@
                     
                     button.appendChild(content);
                     button.addEventListener('click', () => {
-                        speak(kana);
+                        largeKanaDisplay.textContent = kana;
+                        largeRomajiDisplay.textContent = currentRomaji[index];
+                        
+                        if (!isSpeaking) {
+                            isSpeaking = true;
+                            speak(kana, () => {
+                                isSpeaking = false;
+                            });
+                        }
                     });
                     detailKanaRow.appendChild(button);
 
@@ -483,18 +599,28 @@
                         const exampleBtn = document.createElement('button');
                         exampleBtn.textContent = currentExamples[index];
                         exampleBtn.addEventListener('click', () => {
-                            // Speak the Japanese part only (before the hyphen)
-                            const japaneseText = currentExamples[index].split(' - ')[0];
-                            speak(japaneseText);
+                            // 例文から日本語部分のみを抽出（括弧前まで）
+                            const japaneseText = currentExamples[index].split(' (')[0];
+                            if (!isSpeaking) {
+                                isSpeaking = true;
+                                speak(japaneseText, () => {
+                                    isSpeaking = false;
+                                });
+                            }
                         });
                         exampleButtons.appendChild(exampleBtn);
                     }
                 }
             });
+
+            // 最初の仮名を表示
+            if (currentRowKana[0]) {
+                largeKanaDisplay.textContent = currentRowKana[0];
+                largeRomajiDisplay.textContent = currentRomaji[0];
+            }
         }
 
-        function speak(text) {
-            // Cancel any ongoing speech
+        function speak(text, callback) {
             speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance();
@@ -502,15 +628,16 @@
             utterance.lang = 'ja-JP';
             utterance.rate = 0.9;
             
-            // Try to get Japanese voice
             const voices = speechSynthesis.getVoices();
             const japaneseVoice = voices.find(voice => voice.lang === 'ja-JP');
             
             if (japaneseVoice) {
                 utterance.voice = japaneseVoice;
-            } else {
-                console.warn('Japanese voice not found. Using default voice.');
             }
+            
+            utterance.onend = function() {
+                if (callback) callback();
+            };
             
             speechSynthesis.speak(utterance);
         }
